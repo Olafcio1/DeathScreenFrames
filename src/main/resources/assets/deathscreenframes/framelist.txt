@@ -1,0 +1,5 @@
+# Here list the filenames of the .png frames you put inside the 'frames' folder
+# (full names, like frame1.png)
+# (the order DOES matter)
+
+

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "deathscreenframes",
+  "version": "${version}",
+  "name": "DeathScreenFrames",
+  "description": "Adds an animation like specified in the mod assets when died.",
+  "authors": [
+    "Olafcio"
+  ],
+  "contact": {
+    "sources": "https://github.com/Olafcio1/DeathScreenFrames"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/deathscreenframes/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "pl.olafcio.deathscreenframes.Main"
+    ],
+    "main": [
+      "pl.olafcio.deathscreenframes.Main"
+    ]
+  },
+  "mixins": [
+    "deathscreenframes.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
