@@ -2,4 +2,6 @@
 # (full names, like frame1.png)
 # (the order DOES matter)
 
+# You can automate this by running the python script supplied in the root directory
+
 
