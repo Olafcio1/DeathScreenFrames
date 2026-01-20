@@ -22,15 +22,20 @@ public class DeathScreenMixin extends Screen {
     @Unique
     private long time;
 
+    @Unique
+    private boolean on;
+
     @Inject(at = @At("TAIL"), method = "init")
     protected void init(CallbackInfo ci) {
         time = 0;
+
+        Main.attackersReduce();
+        on = Main.attackers.isEmpty();
     }
 
     @Inject(at = @At("HEAD"), method = "render")
     public void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
-        Main.attackersReduce();
-        if (Main.attackers.isEmpty())
+        if (!on)
             return;
 
         var diff = time++ - Main.frames.size();

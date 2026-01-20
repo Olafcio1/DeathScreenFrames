@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Main implements ModInitializer, ClientModInitializer {
+public final class Main implements ModInitializer, ClientModInitializer {
     public static boolean loaded = false;
     public static ArrayList<Identifier> frames;
 
@@ -30,7 +30,7 @@ public class Main implements ModInitializer, ClientModInitializer {
     private void loadFrames() {
         frames = new ArrayList<>();
 
-        try (var flResource = getClass().getResourceAsStream("assets/deathscreenframes/framelist.txt")) {
+        try (var flResource = getClass().getResourceAsStream("/assets/deathscreenframes/framelist.txt")) {
             assert flResource != null;
 
             var flData = flResource.readAllBytes();
@@ -39,7 +39,7 @@ public class Main implements ModInitializer, ClientModInitializer {
             for (var line : lines) {
                 line = line.trim();
 
-                if (!line.startsWith("#"))
+                if (!line.startsWith("#") && !line.isEmpty())
                     frames.add(Identifier.fromNamespaceAndPath("deathscreenframes", "assets/deathscreenframes/frames/" + line));
             }
 
@@ -55,12 +55,21 @@ public class Main implements ModInitializer, ClientModInitializer {
     }
 
     public static HashMap<Entity, Long> attackers = new HashMap<>();
+    public static ArrayList<Entity> toRemove = new ArrayList<>();
+
     public static void attackersReduce() {
         var now = System.currentTimeMillis();
         var entries = attackers.entrySet();
 
         for (var entry : entries)
-            if (!entry.getKey().isAlive() && entry.getValue() < now)
-                attackers.remove(entry.getKey());
+            if (!entry.getKey().isAlive() || entry.getValue() < now)
+                toRemove.add(entry.getKey());
+
+        if (!toRemove.isEmpty()) {
+            for (var entity : toRemove)
+                attackers.remove(entity);
+
+            toRemove.clear();
+        }
     }
 }
