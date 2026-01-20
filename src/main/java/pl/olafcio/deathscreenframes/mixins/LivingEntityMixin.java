@@ -19,7 +19,7 @@ public class LivingEntityMixin {
     private static final long COMBAT_TIME = 1000 * 30;
 
     @Unique
-    private static final boolean DEV_MODE = true;
+    private static final boolean DEV_MODE = false;
 
     @Inject(at = @At("HEAD"), method = "handleDamageEvent")
     public void handleDamageEvent(DamageSource damageSource, CallbackInfo ci) {
