@@ -5,6 +5,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -27,10 +28,12 @@ public class DeathScreenMixin extends Screen {
 
     @Inject(at = @At("TAIL"), method = "init")
     protected void init(CallbackInfo ci) {
-        time = 0;
-
         Main.attackersReduce();
-        on = Main.attackers.isEmpty();
+
+        time = 0;
+        on = !Main.attackers.isEmpty();
+
+        Main.attackers.clear();
     }
 
     @Inject(at = @At("HEAD"), method = "render")
@@ -39,16 +42,18 @@ public class DeathScreenMixin extends Screen {
             return;
 
         var diff = time++ - Main.frames.size();
-        if (time < 0)
+        if (diff < -1)
             guiGraphics.blit(
+                    RenderPipelines.GUI_TEXTURED,
                     Main.frames.get((int) time),
                     0, 0,
-                    width, height,
                     0, 0,
-                    0, 0
+                    width, height,
+                    1920, 1080,
+                    1920, 1080
             );
 
-        this.setAlpha(Math.clamp(((float) diff) / 80F, 0, 1));
+        this.setAlpha(Math.clamp(((float)diff - 10F) / 60F, 0, 1));
     }
 
     @Unique

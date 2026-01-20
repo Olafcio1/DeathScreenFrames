@@ -18,11 +18,14 @@ public class LivingEntityMixin {
     @Unique
     private static final long COMBAT_TIME = 1000 * 30;
 
+    @Unique
+    private static final boolean DEV_MODE = true;
+
     @Inject(at = @At("HEAD"), method = "handleDamageEvent")
     public void handleDamageEvent(DamageSource damageSource, CallbackInfo ci) {
         if ((Object) this instanceof LocalPlayer) {
             var cause = damageSource.getEntity();
-            if (cause instanceof Player) {
+            if (DEV_MODE ? (cause != null) : (cause instanceof Player)) {
                 Main.attackersReduce();
                 Main.attackers.put(cause, System.currentTimeMillis() + COMBAT_TIME);
             }

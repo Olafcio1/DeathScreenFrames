@@ -34,13 +34,13 @@ public final class Main implements ModInitializer, ClientModInitializer {
             assert flResource != null;
 
             var flData = flResource.readAllBytes();
-            var lines = new String(flData).split("\n");
+            var lines = new String(flData).replace("\r", "").split("\n");
 
             for (var line : lines) {
                 line = line.trim();
 
                 if (!line.startsWith("#") && !line.isEmpty())
-                    frames.add(Identifier.fromNamespaceAndPath("deathscreenframes", "assets/deathscreenframes/frames/" + line));
+                    frames.add(Identifier.fromNamespaceAndPath("deathscreenframes", "frames/" + line));
             }
 
             loaded = true;
