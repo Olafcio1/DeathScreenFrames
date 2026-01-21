@@ -5,7 +5,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -36,15 +36,23 @@ public class DeathScreenMixin extends Screen {
         Main.attackers.clear();
     }
 
+    @Unique
+    private long diff;
+
     @Inject(at = @At("HEAD"), method = "render")
-    public void render(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
+    public void renderHead(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         if (!on)
             return;
 
-        var diff = time++ - Main.frames.size();
+        var diff = this.diff = time++ - Main.frames.size();
+        this.setAlpha(Math.clamp(((float)diff - 10F) / 60F, 0, 1));
+    }
+
+    @Inject(at = @At("TAIL"), method = "render")
+    public void renderTail(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo ci) {
         if (diff < -1)
             guiGraphics.blit(
-                    RenderPipelines.GUI_TEXTURED,
+                    RenderType::guiTextured,
                     Main.frames.get((int) time),
                     0, 0,
                     0, 0,
@@ -52,8 +60,6 @@ public class DeathScreenMixin extends Screen {
                     1920, 1080,
                     1920, 1080
             );
-
-        this.setAlpha(Math.clamp(((float)diff - 10F) / 60F, 0, 1));
     }
 
     @Unique

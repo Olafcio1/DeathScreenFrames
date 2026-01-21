@@ -3,7 +3,7 @@ package pl.olafcio.deathscreenframes;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public final class Main implements ModInitializer, ClientModInitializer {
     public static boolean loaded = false;
-    public static ArrayList<Identifier> frames;
+    public static ArrayList<ResourceLocation> frames;
 
     @Override
     public void onInitialize() {
@@ -40,7 +40,7 @@ public final class Main implements ModInitializer, ClientModInitializer {
                 line = line.trim();
 
                 if (!line.startsWith("#") && !line.isEmpty())
-                    frames.add(Identifier.fromNamespaceAndPath("deathscreenframes", "frames/" + line));
+                    frames.add(ResourceLocation.fromNamespaceAndPath("deathscreenframes", "frames/" + line));
             }
 
             loaded = true;
