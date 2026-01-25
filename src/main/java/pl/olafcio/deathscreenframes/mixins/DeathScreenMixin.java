@@ -53,7 +53,7 @@ public class DeathScreenMixin extends Screen {
         if (diff < -1)
             guiGraphics.blit(
                     RenderType::guiTextured,
-                    Main.frames.get((int) time),
+                    Main.frames.get((int) (time/Main.slowdown)),
                     0, 0,
                     0, 0,
                     width, height,
