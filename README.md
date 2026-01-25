@@ -5,7 +5,7 @@ Features:
 |------|------------------------|
 | [x]  | Frame loading          |
 | [x]  | Death screen animation |
-| [x]  | Death screen animation |
+| [x]  | PvP detection          |
 
 [Download here!](https://github.com/Olafcio1/DeathScreenFrames/raw/refs/heads/main/bin/deathscreenframes-1.0.jar)
 
