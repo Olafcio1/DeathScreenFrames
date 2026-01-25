@@ -44,7 +44,7 @@ public class DeathScreenMixin extends Screen {
         if (!on)
             return;
 
-        var diff = this.diff = time++ - Main.frames.size();
+        var diff = this.diff = (time++ / Main.slowdown) - Main.frames.size();
         this.setAlpha(Math.clamp(((float)diff - 10F) / 60F, 0, 1));
     }
 

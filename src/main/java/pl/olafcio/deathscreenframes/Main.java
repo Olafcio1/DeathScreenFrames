@@ -12,6 +12,8 @@ import java.util.HashMap;
 
 public final class Main implements ModInitializer, ClientModInitializer {
     public static boolean loaded = false;
+
+    public static int slowdown;
     public static ArrayList<ResourceLocation> frames;
 
     @Override
@@ -28,6 +30,18 @@ public final class Main implements ModInitializer, ClientModInitializer {
     }
 
     private void loadFrames() {
+        try (var flResource = getClass().getResourceAsStream("/assets/deathscreenframes/slowdown.txt")) {
+            slowdown = Integer.parseInt(new String(flResource.readAllBytes()));
+        } catch (Throwable e) {
+            var logger = LoggerFactory.getLogger("deathscreenframes");
+
+            logger.warn("Failed to load slowdown.txt!");
+            logger.warn("Here's the error ({}):", e.getMessage());
+
+            e.printStackTrace();
+            slowdown = 1;
+        }
+
         frames = new ArrayList<>();
 
         try (var flResource = getClass().getResourceAsStream("/assets/deathscreenframes/framelist.txt")) {
